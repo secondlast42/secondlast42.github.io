@@ -225,7 +225,7 @@
                         inset 0 0 20px rgba(255, 255, 255, 0.3);
             z-index: 2;
             animation: avatarPulse 4s ease-in-out infinite;
-            cursor: none; /* Hide default cursor on avatar */
+            cursor: none; /* Hide default cursor */
         }
 
         .avatar:hover {
@@ -305,6 +305,7 @@
             display: inline-block;
             text-transform: uppercase;
             line-height: 1.1;
+            transition: text-shadow 0.5s ease;
         }
 
         .main-name::before, .main-name::after {
@@ -394,6 +395,7 @@
             animation: badgePulse 3s ease-in-out infinite;
             cursor: none; /* Hide default cursor */
             letter-spacing: 2px;
+            transition: all 0.5s ease;
         }
 
         .artist-badge:hover {
@@ -499,6 +501,7 @@
             border: 3px solid;
             letter-spacing: 0.5px;
             cursor: none; /* Hide default cursor */
+            position: relative;
         }
 
         .social-btn .btn-bg {
@@ -720,6 +723,31 @@
                 0 0 20px rgba(234, 202, 160, 0.6);
         }
 
+        /* Loading star for social links */
+        .loading-star {
+            position: absolute;
+            font-size: 20px;
+            color: #F2EBC9;
+            animation: spin 1s linear infinite;
+            z-index: 10;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Single star effect for clicks */
+        .single-star {
+            position: fixed;
+            pointer-events: none;
+            font-size: 16px;
+            color: #F2EBC9;
+            text-shadow: 0 0 8px rgba(242, 235, 201, 0.8);
+            opacity: 0.9;
+            z-index: 9999;
+        }
+
         @media (max-width: 600px) {
             .profile-card {
                 width: 90%;
@@ -845,13 +873,13 @@
 
         <div class="secondary-roles">
             <div class="role-tag">Composer</div>
-            <div class="role-tag">Saintess of Vividus</div>
+            <div class="role-tag">Full-Stack Architect</div>
         </div>
 
         <div class="divider"></div>
 
         <div class="social-links">
-            <a href="https://www.youtube.com/@AltairDelta" target="_blank" class="social-btn youtube">
+            <a href="https://www.youtube.com/@AltairDelta" target="_blank" class="social-btn youtube" data-url="https://www.youtube.com/@AltairDelta">
                 <span class="btn-bg"></span>
                 <span class="btn-content">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -860,7 +888,7 @@
                     YouTube
                 </span>
             </a>
-            <a href="https://x.com/Altair_Delta" target="_blank" class="social-btn twitter">
+            <a href="https://x.com/Altair_Delta" target="_blank" class="social-btn twitter" data-url="https://x.com/Altair_Delta">
                 <span class="btn-bg"></span>
                 <span class="btn-content">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -913,6 +941,35 @@
                     star.remove();
                 }, 1200);
             }
+        }
+
+        // Single star effect for clicks
+        function createSingleStarEffect(x, y) {
+            const star = document.createElement('div');
+            star.className = 'single-star';
+            star.textContent = '✦';
+            star.style.left = x + 'px';
+            star.style.top = y + 'px';
+            
+            document.body.appendChild(star);
+            
+            let posY = y;
+            let opacity = 0.9;
+            const animateStar = () => {
+                posY -= 2 + Math.random() * 2;
+                opacity -= 0.02;
+                star.style.top = `${posY}px`;
+                star.style.opacity = opacity;
+                star.style.transform = `scale(${0.5 + (opacity * 0.5)})`;
+                
+                if (opacity > 0) {
+                    requestAnimationFrame(animateStar);
+                } else {
+                    star.remove();
+                }
+            };
+            
+            requestAnimationFrame(animateStar);
         }
 
         // Create floating stars with more variety
@@ -1051,7 +1108,8 @@
             // Handle click effect
             document.addEventListener('mousedown', () => {
                 cursor.classList.add('clicking');
-                createClickExplosion(cursorX, cursorY);
+                const rect = cursor.getBoundingClientRect();
+                createClickExplosion(rect.left + rect.width/2, rect.top + rect.height/2);
             });
             
             document.addEventListener('mouseup', () => {
@@ -1130,27 +1188,138 @@
             });
         }
 
+        // Dynamic Typography Glow based on time of day
+        function setupDynamicTypographyGlow() {
+            const hour = new Date().getHours();
+            const isDayTime = hour >= 7 && hour < 19; // 7am to 7pm
+            
+            const mainName = document.querySelector('.main-name');
+            const artistBadge = document.querySelector('.artist-badge');
+            
+            if (isDayTime) {
+                // Day mode - warm golden glow
+                mainName.style.textShadow = '2px 2px 1px rgba(0, 0, 0, 0.3), 0 0 15px rgba(209, 193, 155, 0.8), 0 0 30px rgba(234, 202, 160, 0.6)';
+                artistBadge.style.boxShadow = '0 10px 30px rgba(209, 193, 155, 0.8), inset 0 -3px 10px rgba(0, 0, 0, 0.2)';
+                artistBadge.style.background = 'linear-gradient(135deg, #D1C19B, #EACAA0)';
+            } else {
+                // Night mode - teal glow
+                mainName.style.textShadow = '2px 2px 1px rgba(0, 0, 0, 0.3), 0 0 15px rgba(156, 177, 168, 0.8), 0 0 30px rgba(139, 160, 150, 0.6)';
+                artistBadge.style.boxShadow = '0 10px 30px rgba(156, 177, 168, 0.8), inset 0 -3px 10px rgba(0, 0, 0, 0.2)';
+                artistBadge.style.background = 'linear-gradient(135deg, #9CB1A8, #8DA89F)';
+            }
+        }
+
+        // Enhanced social link hover with loading stars
+        function setupSocialLinkEffects() {
+            document.querySelectorAll('.social-btn').forEach(btn => {
+                const originalHref = btn.getAttribute('href');
+                btn.removeAttribute('href');
+                
+                btn.addEventListener('mouseenter', (e) => {
+                    // Create loading star
+                    const loadingStar = document.createElement('span');
+                    loadingStar.className = 'loading-star';
+                    loadingStar.textContent = '✦';
+                    btn.appendChild(loadingStar);
+                    
+                    // After delay, remove the star (simulating loading)
+                    setTimeout(() => {
+                        if (loadingStar.parentNode === btn) {
+                            loadingStar.remove();
+                        }
+                    }, 800);
+                });
+                
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Show loading star on click
+                    const loadingStar = document.createElement('span');
+                    loadingStar.className = 'loading-star';
+                    loadingStar.textContent = '✦';
+                    btn.appendChild(loadingStar);
+                    
+                    // Disable button during "loading"
+                    btn.style.pointerEvents = 'none';
+                    btn.querySelector('.btn-content').style.opacity = '0.5';
+                    
+                    // After delay, redirect
+                    setTimeout(() => {
+                        window.open(originalHref, '_blank');
+                        // Cleanup
+                        btn.style.pointerEvents = 'auto';
+                        btn.querySelector('.btn-content').style.opacity = '1';
+                        loadingStar.remove();
+                    }, 600);
+                });
+            });
+        }
+
+        // Anti-interaction protection with visual feedback
+        function setupAntiInteractionProtection() {
+            // Block right-click context menu
+            document.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                createStarBurstEffect(e.clientX, e.clientY, 8, 80);
+                return false;
+            });
+            
+            // Block developer tools and save actions
+            document.addEventListener('keydown', (e) => {
+                // F12
+                if (e.key === 'F12') {
+                    e.preventDefault();
+                    createStarBurstEffect(window.innerWidth/2, window.innerHeight/2, 15, 120);
+                    return false;
+                }
+                
+                // Ctrl+Shift+I, Ctrl+U, Ctrl+S, Ctrl+C
+                if (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'c' || (e.shiftKey && e.key === 'I'))) {
+                    e.preventDefault();
+                    createStarBurstEffect(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2, 10, 100);
+                    return false;
+                }
+                
+                // Block Inspect Element via other shortcuts
+                if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'C')) {
+                    e.preventDefault();
+                    createStarBurstEffect(window.innerWidth/2, window.innerHeight/2, 12, 100);
+                    return false;
+                }
+            });
+            
+            // Block image dragging
+            document.querySelectorAll('img').forEach(img => {
+                img.ondragstart = () => false;
+            });
+            
+            // Block text selection on important elements (optional)
+            document.querySelectorAll('.profile-card, .main-name, .artist-badge').forEach(el => {
+                el.style.userSelect = 'none';
+            });
+            
+            // Create star effect on any click
+            document.addEventListener('click', (e) => {
+                createSingleStarEffect(e.clientX, e.clientY);
+            });
+        }
+
         // Enhanced click and hover effects
         document.addEventListener('DOMContentLoaded', () => {
             createFloatingStars();
             setupParallax();
             setupAmbientGlow();
             setupAnimatedCursor();
-
-            // Click effects on body
-            document.body.addEventListener('click', (e) => {
-                createStarBurstEffect(e.clientX, e.clientY);
-            });
+            setupDynamicTypographyGlow();
+            setupSocialLinkEffects();
+            setupAntiInteractionProtection();
 
             // Avatar click effect
             const avatar = document.querySelector('.avatar');
             avatar.addEventListener('click', (e) => {
                 e.stopPropagation();
                 createStarBurstEffect(e.clientX, e.clientY, 24, 250);
-                // Also create a mini explosion from the cursor position
-                const cursor = document.querySelector('.custom-cursor');
-                const rect = cursor.getBoundingClientRect();
-                createStarBurstEffect(rect.left + rect.width/2, rect.top + rect.height/2, 8, 100);
             });
 
             // Corner stars click
@@ -1192,17 +1361,6 @@
                 });
             });
 
-            // Social buttons hover effect
-            const socialBtns = document.querySelectorAll('.social-btn');
-            socialBtns.forEach(btn => {
-                btn.addEventListener('mouseenter', (e) => {
-                    const rect = btn.getBoundingClientRect();
-                    const x = rect.left + Math.random() * rect.width;
-                    const y = rect.top + Math.random() * rect.height;
-                    createStarBurstEffect(x, y, 6, 80);
-                });
-            });
-
             // Add some stars when loading
             setTimeout(() => {
                 const card = document.querySelector('.profile-card');
@@ -1215,4 +1373,3 @@
     </script>
 </body>
 </html>
-
