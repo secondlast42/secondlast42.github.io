@@ -34,7 +34,7 @@
             position: relative;
             padding: 40px 20px;
             background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
-            cursor: none !important;
+            cursor: none !important; /* Hide default cursor */
         }
 
         .parallax-container {
@@ -225,7 +225,7 @@
                         inset 0 0 20px rgba(255, 255, 255, 0.3);
             z-index: 2;
             animation: avatarPulse 4s ease-in-out infinite;
-            cursor: none;
+            cursor: none; /* Hide default cursor */
         }
 
         .avatar:hover {
@@ -393,7 +393,7 @@
             box-shadow: 0 10px 30px rgba(207, 164, 116, 0.5),
                         inset 0 -3px 10px rgba(0, 0, 0, 0.2);
             animation: badgePulse 3s ease-in-out infinite;
-            cursor: none;
+            cursor: none; /* Hide default cursor */
             letter-spacing: 2px;
             transition: all 0.5s ease;
         }
@@ -436,7 +436,7 @@
             border: 2px solid #9CB1A8;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             animation: tagFloat 4s ease-in-out infinite;
-            cursor: none;
+            cursor: none; /* Hide default cursor */
             transition: all 0.3s ease;
             letter-spacing: 0.5px;
         }
@@ -500,7 +500,7 @@
             transition: all 0.4s ease;
             border: 3px solid;
             letter-spacing: 0.5px;
-            cursor: none;
+            cursor: none; /* Hide default cursor */
             position: relative;
         }
 
@@ -566,7 +566,7 @@
             color: #CFA474;
             animation: cornerStarRotate 8s linear infinite;
             text-shadow: 0 0 20px rgba(207, 164, 116, 0.8);
-            cursor: none;
+            cursor: none; /* Hide default cursor */
             transition: all 0.3s ease;
         }
 
@@ -604,15 +604,46 @@
             100% { transform: rotate(360deg) scale(1); }
         }
 
-        /* Single star effect for clicks */
-        .single-star {
+        .click-effect {
             position: fixed;
             pointer-events: none;
-            font-size: 16px;
+            font-size: 30px;
             color: #F2EBC9;
-            text-shadow: 0 0 8px rgba(242, 235, 201, 0.8);
-            opacity: 0.9;
+            text-shadow: 0 0 10px rgba(242, 235, 201, 0.8);
+            animation: clickStarEffect 1s ease-out forwards;
             z-index: 9999;
+        }
+
+        @keyframes clickStarEffect {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2) rotate(360deg) translateY(-100px);
+                opacity: 0;
+            }
+        }
+
+        .star-burst {
+            position: fixed;
+            pointer-events: none;
+            font-size: 24px;
+            color: #F2EBC9;
+            text-shadow: 0 0 10px rgba(242, 235, 201, 0.8);
+            z-index: 9998;
+            opacity: 0;
+        }
+
+        @keyframes burstStar {
+            0% {
+                transform: translate(0, 0) scale(0.5);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(var(--dx), var(--dy)) scale(1.2);
+                opacity: 0;
+            }
         }
 
         /* Custom cursor styles */
@@ -667,6 +698,7 @@
             transform: translate(-50%, -50%) scale(1);
         }
 
+        /* Interactive states */
         .custom-cursor.hovering .cursor-core {
             transform: scale(1.8);
             background: #CFA474;
@@ -705,7 +737,89 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Hide custom cursor on mobile */
+        /* Single star effect for clicks */
+        .single-star {
+            position: fixed;
+            pointer-events: none;
+            font-size: 16px;
+            color: #F2EBC9;
+            text-shadow: 0 0 8px rgba(242, 235, 201, 0.8);
+            opacity: 0.9;
+            z-index: 9999;
+        }
+
+        @media (max-width: 600px) {
+            .profile-card {
+                width: 90%;
+                padding: 30px 25px;
+            }
+
+            .main-name {
+                font-size: 32px;
+            }
+
+            .artist-badge {
+                font-size: 16px;
+                padding: 8px 25px;
+            }
+            
+            .avatar-container {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 15px;
+            }
+            
+            .avatar {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .social-btn {
+                font-size: 13px;
+                padding: 10px 18px;
+            }
+        }
+        
+        @media (max-height: 700px) {
+            .profile-card {
+                max-height: 95vh;
+                padding: 20px 20px;
+                margin-top: 2vh;
+            }
+            
+            .name-section {
+                margin-bottom: 10px;
+            }
+            
+            .main-name {
+                font-size: 42px;
+            }
+            
+            .title-main {
+                margin: 15px 0 10px;
+            }
+            
+            .artist-badge {
+                padding: 8px 25px;
+                font-size: 16px;
+            }
+            
+            .secondary-roles {
+                margin: 10px 0;
+            }
+            
+            .social-links {
+                margin-top: 15px;
+                gap: 8px;
+            }
+            
+            .social-btn {
+                padding: 10px 18px;
+                font-size: 13px;
+            }
+        }
+        
+        /* Hide custom cursor on mobile devices */
         @media (hover: none) {
             .custom-cursor {
                 display: none;
@@ -759,7 +873,7 @@
 
         <div class="secondary-roles">
             <div class="role-tag">Composer</div>
-            <div class="role-tag">Full-Stack Architect</div>
+            <div class="role-tag">Full-Stack</div>
         </div>
 
         <div class="divider"></div>
@@ -793,6 +907,8 @@
         </div>
     </div>
 
+    <div class="click-effect-container" id="clickEffects"></div>
+    
     <!-- Animated Star Cursor -->
     <div class="custom-cursor">
         <div class="cursor-core"></div>
@@ -800,71 +916,34 @@
     </div>
 
     <script>
-        // === TỐI ƯU: Container chung cho tất cả hiệu ứng sao ===
-        let starContainer = document.getElementById('optimizedStars');
-        if (!starContainer) {
-            starContainer = document.createElement('div');
-            starContainer.id = 'optimizedStars';
-            starContainer.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                pointer-events: none;
-                z-index: 9990;
-                overflow: hidden;
-            `;
-            document.body.appendChild(starContainer);
-        }
-
-        // Danh sách các sao đang hoạt động (để giới hạn và dọn dẹp)
-        let activeStars = [];
-
-        function createOptimizedStarBurst(x, y, count = 12, maxRadius = 150) {
-            // Giới hạn số sao đồng thời để tránh lag
-            if (activeStars.length > 50) return;
-
+        // Enhanced star effects with randomized behavior
+        function createStarBurstEffect(x, y, count = 18, maxRadius = 200) {
             for (let i = 0; i < count; i++) {
                 const angle = (i / count) * Math.PI * 2;
-                const radius = 30 + Math.random() * (maxRadius - 30);
+                const radius = 50 + Math.random() * (maxRadius - 50);
                 const dx = Math.cos(angle) * radius;
                 const dy = Math.sin(angle) * radius;
                 
                 const star = document.createElement('div');
+                star.className = 'star-burst';
                 star.textContent = '✦';
-                star.style.cssText = `
-                    position: absolute;
-                    left: ${x}px;
-                    top: ${y}px;
-                    font-size: ${14 + Math.random() * 10}px;
-                    color: #F2EBC9;
-                    text-shadow: 0 0 8px rgba(242,235,201,0.8);
-                    opacity: 0.9;
-                    pointer-events: none;
-                    transform: translate(0, 0);
-                    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.3, 1), opacity 0.6s ease;
-                `;
+                star.style.left = x + 'px';
+                star.style.top = y + 'px';
+                star.style.fontSize = (18 + Math.random() * 12) + 'px';
+                star.style.opacity = 0.7 + Math.random() * 0.3;
+                star.style.setProperty('--dx', `${dx}px`);
+                star.style.setProperty('--dy', `${dy}px`);
+                star.style.animation = `burstStar ${0.8 + Math.random() * 0.5}s ease-out forwards`;
                 
-                starContainer.appendChild(star);
-                activeStars.push(star);
+                document.body.appendChild(star);
                 
-                // Kích hoạt animation
-                requestAnimationFrame(() => {
-                    star.style.transform = `translate(${dx}px, ${dy}px)`;
-                    star.style.opacity = '0';
-                });
-                
-                // Dọn dẹp sau khi animation kết thúc
                 setTimeout(() => {
-                    if (star.parentNode) star.remove();
-                    const index = activeStars.indexOf(star);
-                    if (index > -1) activeStars.splice(index, 1);
-                }, 650);
+                    star.remove();
+                }, 1200);
             }
         }
 
-        // Single star effect for clicks (mượt, không gây lag)
+        // Single star effect for clicks
         function createSingleStarEffect(x, y) {
             const star = document.createElement('div');
             star.className = 'single-star';
@@ -893,10 +972,11 @@
             requestAnimationFrame(animateStar);
         }
 
-        // === CÁC HÀM CÒN LẠI (giữ nguyên) ===
+        // Create floating stars with more variety
         function createFloatingStars() {
             const container = document.getElementById('starsContainer');
             const starCount = 45;
+
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
                 star.className = 'floating-star';
@@ -912,29 +992,42 @@
             }
         }
 
+        // Parallax effect
         function setupParallax() {
             document.addEventListener('mousemove', (e) => {
                 const x = e.clientX / window.innerWidth - 0.5;
                 const y = e.clientY / window.innerHeight - 0.5;
+                
                 document.querySelector('.layer-1').style.transform = `translate3d(${x * 10}px, ${y * 10}px, 0)`;
                 document.querySelector('.layer-2').style.transform = `translate3d(${x * 25}px, ${y * 25}px, 0)`;
                 document.querySelector('.layer-3').style.transform = `translate3d(${x * 40}px, ${y * 40}px, 0)`;
             });
         }
 
+        // Dynamic ambient glow
         function setupAmbientGlow() {
             let hue = 0;
             const profileCard = document.querySelector('.profile-card');
+            
             function updateGlow() {
                 hue = (hue + 0.03) % 360;
                 profileCard.style.setProperty('--hue', hue);
-                const gradient = `linear-gradient(135deg, hsl(${hue + 30}, 40%, 50%), hsl(${hue + 60}, 40%, 50%), hsl(${hue + 90}, 40%, 50%))`;
+                
+                // Update card background dynamically
+                const gradient = `linear-gradient(135deg, 
+                    hsl(${hue + 30}, 40%, 50%), 
+                    hsl(${hue + 60}, 40%, 50%), 
+                    hsl(${hue + 90}, 40%, 50%)
+                )`;
                 profileCard.style.background = gradient;
+                
                 requestAnimationFrame(updateGlow);
             }
+            
             updateGlow();
         }
 
+        // Starry animated cursor implementation
         function setupAnimatedCursor() {
             const cursor = document.querySelector('.custom-cursor');
             const cursorStar = cursor.querySelector('.cursor-star');
@@ -942,117 +1035,219 @@
             const trailParticles = [];
             const maxTrails = 8;
             
+            // Initialize trail particles
             for (let i = 0; i < maxTrails; i++) {
                 const trail = document.createElement('div');
                 trail.className = 'cursor-trail';
                 trail.style.opacity = 0;
                 cursor.appendChild(trail);
-                trailParticles.push({ el: trail, x: 0, y: 0, size: 4 + Math.random() * 12, life: 0 });
+                trailParticles.push({
+                    el: trail,
+                    x: 0,
+                    y: 0,
+                    size: 4 + Math.random() * 12,
+                    life: 0
+                });
             }
             
-            let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0, isHovering = false, lastStarTime = 0, animationFrame;
+            let mouseX = 0;
+            let mouseY = 0;
+            let cursorX = 0;
+            let cursorY = 0;
+            let isHovering = false;
+            let lastStarTime = 0;
+            let animationFrame;
             
+            // Track mouse position
             document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX; mouseY = e.clientY;
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                
+                // Show star occasionally when moving
                 const now = Date.now();
                 if (now - lastStarTime > 1000 && Math.random() > 0.95 && !isHovering) {
                     cursorStar.textContent = '✦';
                     cursorStar.classList.add('visible');
                     lastStarTime = now;
-                    setTimeout(() => cursorStar.classList.remove('visible'), 300);
+                    
+                    setTimeout(() => {
+                        cursorStar.classList.remove('visible');
+                    }, 300);
                 }
             });
             
+            // Handle hover states for interactive elements
             const interactiveElements = document.querySelectorAll('a, button, .social-btn, .avatar, .artist-badge, .role-tag, .corner-star');
+            
             interactiveElements.forEach(el => {
-                el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); isHovering = true; cursorStar.textContent = '✦'; cursorStar.classList.add('visible'); });
-                el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); isHovering = false; cursorStar.classList.remove('visible'); });
+                el.addEventListener('mouseenter', () => {
+                    cursor.classList.add('hovering');
+                    isHovering = true;
+                    cursorStar.textContent = '✦';
+                    cursorStar.classList.add('visible');
+                });
+                
+                el.addEventListener('mouseleave', () => {
+                    cursor.classList.remove('hovering');
+                    isHovering = false;
+                    cursorStar.classList.remove('visible');
+                });
             });
             
+            // Handle text elements
             document.querySelectorAll('h1, p, span, .alt-name').forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('text-mode'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('text-mode'));
+                el.addEventListener('mouseenter', () => {
+                    cursor.classList.add('text-mode');
+                });
+                
+                el.addEventListener('mouseleave', () => {
+                    cursor.classList.remove('text-mode');
+                });
             });
             
+            // Handle click effect
             document.addEventListener('mousedown', () => {
                 cursor.classList.add('clicking');
                 const rect = cursor.getBoundingClientRect();
-                // DÙNG PHIÊN BẢN TỐI ƯU
-                createOptimizedStarBurst(rect.left + rect.width/2, rect.top + rect.height/2, 8, 100);
+                createClickExplosion(rect.left + rect.width/2, rect.top + rect.height/2);
             });
             
-            document.addEventListener('mouseup', () => cursor.classList.remove('clicking');
+            document.addEventListener('mouseup', () => {
+                cursor.classList.remove('clicking');
+            });
             
+            // Create explosion effect on click
+            function createClickExplosion(x, y) {
+                for (let i = 0; i < 12; i++) {
+                    const angle = (i / 12) * Math.PI * 2;
+                    const distance = 30 + Math.random() * 20;
+                    const star = document.createElement('div');
+                    star.className = 'star-burst';
+                    star.textContent = '✦';
+                    star.style.left = x + 'px';
+                    star.style.top = y + 'px';
+                    star.style.fontSize = (12 + Math.random() * 8) + 'px';
+                    star.style.opacity = 0.8;
+                    star.style.setProperty('--dx', `${Math.cos(angle) * distance}px`);
+                    star.style.setProperty('--dy', `${Math.sin(angle) * distance}px`);
+                    document.body.appendChild(star);
+                    
+                    setTimeout(() => {
+                        star.remove();
+                    }, 500);
+                }
+            }
+            
+            // Animation loop for smooth cursor movement
             function animateCursor() {
+                // Ease the cursor movement
                 cursorX += (mouseX - cursorX) * 0.2;
                 cursorY += (mouseY - cursorY) * 0.2;
+                
+                // Position the main cursor
                 cursor.style.transform = `translate(${cursorX}px, ${cursorY}px)`;
                 
-                trailParticles.forEach(p => {
-                    if (p.life > 0) {
-                        p.life -= 0.05;
-                        p.x += (cursorX - p.x) * 0.1;
-                        p.y += (cursorY - p.y) * 0.1;
-                        p.el.style.opacity = p.life;
-                        p.el.style.transform = `translate(${p.x - cursorX}px, ${p.y - cursorY}px) scale(${p.life})`;
-                        p.el.style.width = `${p.size * p.life}px`;
-                        p.el.style.height = `${p.size * p.life}px`;
+                // Animate trail particles
+                trailParticles.forEach((particle, index) => {
+                    if (particle.life > 0) {
+                        particle.life -= 0.05;
+                        particle.x += (cursorX - particle.x) * 0.1;
+                        particle.y += (cursorY - particle.y) * 0.1;
+                        
+                        particle.el.style.opacity = particle.life;
+                        particle.el.style.transform = `translate(${particle.x - cursorX}px, ${particle.y - cursorY}px) scale(${particle.life})`;
+                        particle.el.style.width = `${particle.size * particle.life}px`;
+                        particle.el.style.height = `${particle.size * particle.life}px`;
                     }
                 });
                 
+                // Create new trail particles occasionally
                 if (Math.random() > 0.8 && !isHovering) {
-                    const p = trailParticles.find(p => p.life <= 0);
-                    if (p) { p.x = cursorX; p.y = cursorY; p.size = 4 + Math.random() * 12; p.life = 0.8 + Math.random() * 0.4; }
+                    const availableParticle = trailParticles.find(p => p.life <= 0);
+                    if (availableParticle) {
+                        availableParticle.x = cursorX;
+                        availableParticle.y = cursorY;
+                        availableParticle.size = 4 + Math.random() * 12;
+                        availableParticle.life = 0.8 + Math.random() * 0.4;
+                    }
                 }
                 
                 animationFrame = requestAnimationFrame(animateCursor);
             }
+            
+            // Start animation
             animateCursor();
             
+            // Pause animation when tab is not active to save resources
             document.addEventListener('visibilitychange', () => {
-                if (document.hidden) cancelAnimationFrame(animationFrame);
-                else animateCursor();
+                if (document.hidden) {
+                    cancelAnimationFrame(animationFrame);
+                } else {
+                    animateCursor();
+                }
             });
         }
 
+        // Dynamic Typography Glow based on time of day
         function setupDynamicTypographyGlow() {
             const hour = new Date().getHours();
-            const isDayTime = hour >= 7 && hour < 19;
+            const isDayTime = hour >= 7 && hour < 19; // 7am to 7pm
+            
             const mainName = document.querySelector('.main-name');
             const artistBadge = document.querySelector('.artist-badge');
             
             if (isDayTime) {
+                // Day mode - warm golden glow
                 mainName.style.textShadow = '2px 2px 1px rgba(0, 0, 0, 0.3), 0 0 15px rgba(209, 193, 155, 0.8), 0 0 30px rgba(234, 202, 160, 0.6)';
                 artistBadge.style.boxShadow = '0 10px 30px rgba(209, 193, 155, 0.8), inset 0 -3px 10px rgba(0, 0, 0, 0.2)';
                 artistBadge.style.background = 'linear-gradient(135deg, #D1C19B, #EACAA0)';
             } else {
+                // Night mode - teal glow
                 mainName.style.textShadow = '2px 2px 1px rgba(0, 0, 0, 0.3), 0 0 15px rgba(156, 177, 168, 0.8), 0 0 30px rgba(139, 160, 150, 0.6)';
                 artistBadge.style.boxShadow = '0 10px 30px rgba(156, 177, 168, 0.8), inset 0 -3px 10px rgba(0, 0, 0, 0.2)';
                 artistBadge.style.background = 'linear-gradient(135deg, #9CB1A8, #8DA89F)';
             }
         }
 
+        // Enhanced social link hover with loading stars
         function setupSocialLinkEffects() {
             document.querySelectorAll('.social-btn').forEach(btn => {
                 const originalHref = btn.getAttribute('href');
                 btn.removeAttribute('href');
+                
                 btn.addEventListener('mouseenter', (e) => {
+                    // Create loading star
                     const loadingStar = document.createElement('span');
                     loadingStar.className = 'loading-star';
                     loadingStar.textContent = '✦';
                     btn.appendChild(loadingStar);
-                    setTimeout(() => { if (loadingStar.parentNode === btn) loadingStar.remove(); }, 800);
+                    
+                    // After delay, remove the star (simulating loading)
+                    setTimeout(() => {
+                        if (loadingStar.parentNode === btn) {
+                            loadingStar.remove();
+                        }
+                    }, 800);
                 });
+                
                 btn.addEventListener('click', (e) => {
-                    e.preventDefault(); e.stopPropagation();
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Show loading star on click
                     const loadingStar = document.createElement('span');
                     loadingStar.className = 'loading-star';
                     loadingStar.textContent = '✦';
                     btn.appendChild(loadingStar);
+                    
+                    // Disable button during "loading"
                     btn.style.pointerEvents = 'none';
                     btn.querySelector('.btn-content').style.opacity = '0.5';
+                    
+                    // After delay, redirect
                     setTimeout(() => {
                         window.open(originalHref, '_blank');
+                        // Cleanup
                         btn.style.pointerEvents = 'auto';
                         btn.querySelector('.btn-content').style.opacity = '1';
                         loadingStar.remove();
@@ -1061,41 +1256,56 @@
             });
         }
 
+        // Anti-interaction protection with visual feedback
         function setupAntiInteractionProtection() {
+            // Block right-click context menu
             document.addEventListener('contextmenu', (e) => {
                 e.preventDefault();
-                // DÙNG PHIÊN BẢN TỐI ƯU
-                createOptimizedStarBurst(e.clientX, e.clientY, 8, 80);
+                createStarBurstEffect(e.clientX, e.clientY, 8, 80);
                 return false;
             });
             
+            // Block developer tools and save actions
             document.addEventListener('keydown', (e) => {
+                // F12
                 if (e.key === 'F12') {
                     e.preventDefault();
-                    createOptimizedStarBurst(window.innerWidth/2, window.innerHeight/2, 15, 120);
+                    createStarBurstEffect(window.innerWidth/2, window.innerHeight/2, 15, 120);
                     return false;
                 }
+                
+                // Ctrl+Shift+I, Ctrl+U, Ctrl+S, Ctrl+C
                 if (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'c' || (e.shiftKey && e.key === 'I'))) {
                     e.preventDefault();
-                    createOptimizedStarBurst(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2, 10, 100);
+                    createStarBurstEffect(e.clientX || window.innerWidth/2, e.clientY || window.innerHeight/2, 10, 100);
                     return false;
                 }
+                
+                // Block Inspect Element via other shortcuts
                 if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'C')) {
                     e.preventDefault();
-                    createOptimizedStarBurst(window.innerWidth/2, window.innerHeight/2, 12, 100);
+                    createStarBurstEffect(window.innerWidth/2, window.innerHeight/2, 12, 100);
                     return false;
                 }
             });
             
-            document.querySelectorAll('img').forEach(img => img.ondragstart = () => false);
-            document.querySelectorAll('.profile-card, .main-name, .artist-badge').forEach(el => el.style.userSelect = 'none');
+            // Block image dragging
+            document.querySelectorAll('img').forEach(img => {
+                img.ondragstart = () => false;
+            });
             
-            // Click bất kỳ đâu → sao bay lên (mượt)
+            // Block text selection on important elements (optional)
+            document.querySelectorAll('.profile-card, .main-name, .artist-badge').forEach(el => {
+                el.style.userSelect = 'none';
+            });
+            
+            // Create star effect on any click
             document.addEventListener('click', (e) => {
                 createSingleStarEffect(e.clientX, e.clientY);
             });
         }
 
+        // Enhanced click and hover effects
         document.addEventListener('DOMContentLoaded', () => {
             createFloatingStars();
             setupParallax();
@@ -1105,42 +1315,59 @@
             setupSocialLinkEffects();
             setupAntiInteractionProtection();
 
+            // Avatar click effect
             const avatar = document.querySelector('.avatar');
             avatar.addEventListener('click', (e) => {
                 e.stopPropagation();
-                createOptimizedStarBurst(e.clientX, e.clientY, 18, 200);
+                createStarBurstEffect(e.clientX, e.clientY, 24, 250);
             });
 
+            // Corner stars click
             const cornerStars = document.querySelectorAll('.corner-star');
             cornerStars.forEach(star => {
                 star.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const rect = star.getBoundingClientRect();
-                    createOptimizedStarBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 10, 120);
+                    createStarBurstEffect(
+                        rect.left + rect.width / 2,
+                        rect.top + rect.height / 2,
+                        12,
+                        150
+                    );
                 });
             });
 
+            // Artist badge click
             const badge = document.querySelector('.artist-badge');
             badge.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const rect = badge.getBoundingClientRect();
-                createOptimizedStarBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 16, 150);
+                createStarBurstEffect(
+                    rect.left + rect.width / 2,
+                    rect.top + rect.height / 2,
+                    20,
+                    180
+                );
             });
 
+            // Role tags hover effect
             const roleTags = document.querySelectorAll('.role-tag');
             roleTags.forEach(tag => {
                 tag.addEventListener('mouseenter', (e) => {
                     const rect = tag.getBoundingClientRect();
                     const x = rect.left + Math.random() * rect.width;
                     const y = rect.top + Math.random() * rect.height;
-                    createOptimizedStarBurst(x, y, 6, 80);
+                    createStarBurstEffect(x, y, 8, 100);
                 });
             });
 
+            // Add some stars when loading
             setTimeout(() => {
                 const card = document.querySelector('.profile-card');
                 const rect = card.getBoundingClientRect();
-                createOptimizedStarBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 12, 100);
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                createStarBurstEffect(centerX, centerY, 15, 120);
             }, 800);
         });
     </script>
