@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azrielle - Artist Profile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-container">
+        <img src="https://i.ibb.co/dszJ6jHV/roro046-1983491023604212009-01.jpg" alt="background" class="bg-image">
+        <div class="overlay"></div>
+    </div>
+
+    <div class="stars-container" id="starsContainer"></div>
+
+    <div class="profile-card">
+        <div class="card-glow"></div>
+        
+        <div class="avatar-container">
+            <div class="avatar-ring"></div>
+            <div class="avatar-ring-2"></div>
+            <img src="https://i.ibb.co/nsJgk1jT/square-crop.jpg" alt="Azrielle" class="avatar">
+            <div class="avatar-stars">
+                <div class="star-particle"></div>
+                <div class="star-particle"></div>
+                <div class="star-particle"></div>
+            </div>
+        </div>
+
+        <div class="name-section">
+            <h1 class="main-name">Azrielle</h1>
+            <div class="alt-names">
+                <span class="alt-name">Second Last</span>
+                <span class="separator">•</span>
+                <span class="alt-name">Altair Delta</span>
+            </div>
+        </div>
+
+        <div class="title-main">
+            <div class="artist-badge">
+                <span class="badge-icon">✦</span>
+                <span>ARTIST</span>
+                <span class="badge-icon">✦</span>
+            </div>
+        </div>
+
+        <div class="secondary-roles">
+            <div class="role-tag">Composer</div>
+            <div class="role-tag">Full-Stack Architect</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="social-links">
+            <a href="https://www.youtube.com/@AltairDelta" target="_blank" class="social-btn youtube">
+                <span class="btn-bg"></span>
+                <span class="btn-content">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    YouTube
+                </span>
+            </a>
+            <a href="https://x.com/Altair_Delta" target="_blank" class="social-btn twitter">
+                <span class="btn-bg"></span>
+                <span class="btn-content">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                    X / Twitter
+                </span>
+            </a>
+        </div>
+
+        <div class="decorative-elements">
+            <div class="corner-star top-left">✦</div>
+            <div class="corner-star top-right">✦</div>
+            <div class="corner-star bottom-left">✦</div>
+            <div class="corner-star bottom-right">✦</div>
+        </div>
+    </div>
+
+    <div class="click-effect-container" id="clickEffects"></div>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Changed from center to prevent cutoff */
+            overflow-x: hidden;
+            overflow-y: auto; /* Changed from hidden to allow scrolling */
+            position: relative;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+        }
+
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .bg-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.4) blur(3px);
+            animation: bgPulse 20s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { transform: scale(1); filter: brightness(0.4) blur(3px); }
+            50% { transform: scale(1.1); filter: brightness(0.5) blur(2px); }
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(209, 193, 155, 0.2) 0%,
+                rgba(234, 202, 160, 0.15) 25%,
+                rgba(156, 177, 168, 0.2) 50%,
+                rgba(207, 164, 116, 0.15) 75%,
+                rgba(242, 235, 201, 0.2) 100%
+            );
+            animation: overlayShift 15s ease-in-out infinite;
+        }
+
+        @keyframes overlayShift {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.6; }
+        }
+
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-star {
+            position: absolute;
+            color: #F2EBC9;
+            font-size: 20px;
+            animation: floatStar 8s ease-in-out infinite;
+            text-shadow: 0 0 10px rgba(242, 235, 201, 0.8),
+                         0 0 20px rgba(234, 202, 160, 0.6);
+            opacity: 0;
+        }
+
+        @keyframes floatStar {
+            0% { transform: translateY(0) rotate(0deg) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg) scale(1.5); opacity: 0; }
+        }
+
+        .profile-card {
+            position: relative;
+            width: 380px;
+            max-width: 95%;
+            max-height: 90vh; /* Added to prevent overflow */
+            background: linear-gradient(135deg, 
+                rgba(209, 193, 155, 0.95) 0%,
+                rgba(234, 202, 160, 0.95) 50%,
+                rgba(242, 235, 201, 0.95) 100%
+            );
+            border-radius: 25px;
+            padding: 25px 25px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5),
+                        0 0 60px rgba(207, 164, 116, 0.6),
+                        inset 0 0 80px rgba(255, 255, 255, 0.2);
+            animation: cardFloat 6s ease-in-out infinite;
+            border: 3px solid rgba(207, 164, 116, 0.8);
+            overflow: visible;
+            z-index: 10;
+            margin-top: 5vh; /* Added top margin for better positioning */
+        }
+
+        @keyframes cardFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+        }
+
+        .card-glow {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, 
+                #D1C19B, #EACAA0, #F2EBC9, #CFA474, #9CB1A8,
+                #D1C19B, #EACAA0, #F2EBC9
+            );
+            background-size: 300% 300%;
+            border-radius: 32px;
+            z-index: -1;
+            opacity: 0.6;
+            animation: glowRotate 8s linear infinite;
+            filter: blur(15px);
+        }
+
+        @keyframes glowRotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 20px;
+        }
+
+        .avatar-ring, .avatar-ring-2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            animation: ringRotate 10s linear infinite;
+        }
+
+        .avatar-ring {
+            width: 155px;
+            height: 155px;
+            border: 3px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(45deg, #CFA474, #9CB1A8, #D1C19B, #CFA474) border-box;
+            animation: ringRotate 8s linear infinite;
+        }
+
+        .avatar-ring-2 {
+            width: 170px;
+            height: 170px;
+            border: 2px dashed #9CB1A8;
+            animation: ringRotate 12s linear infinite reverse;
+        }
+
+        @keyframes ringRotate {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .avatar {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #CFA474;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4),
+                        inset 0 0 20px rgba(255, 255, 255, 0.3);
+            z-index: 2;
+            animation: avatarPulse 4s ease-in-out infinite;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        @keyframes avatarPulse {
+            0%, 100% { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(207, 164, 116, 0.6); }
+            50% { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 50px rgba(156, 177, 168, 0.8); }
+        }
+
+        .avatar-stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star-particle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            color: #F2EBC9;
+            font-size: 24px;
+            animation: particleOrbit 6s linear infinite;
+        }
+
+        .star-particle:nth-child(1) {
+            animation-delay: 0s;
+            top: 10%;
+            left: 50%;
+        }
+
+        .star-particle:nth-child(2) {
+            animation-delay: 2s;
+            top: 50%;
+            left: 10%;
+        }
+
+        .star-particle:nth-child(3) {
+            animation-delay: 4s;
+            top: 80%;
+            left: 70%;
+        }
+
+        .star-particle::before {
+            content: '✦';
+            text-shadow: 0 0 10px rgba(242, 235, 201, 0.8);
+        }
+
+        @keyframes particleOrbit {
+            0% { transform: rotate(0deg) translateX(70px) rotate(0deg); opacity: 1; }
+            100% { transform: rotate(360deg) translateX(70px) rotate(-360deg); opacity: 0.3; }
+        }
+
+        .name-section {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .main-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #5a7a70, #8a6d4f, #6b5d4a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(2px 2px 1px rgba(0, 0, 0, 0.3)) 
+                    drop-shadow(0 0 15px rgba(207, 164, 116, 0.6))
+                    drop-shadow(0 0 30px rgba(156, 177, 168, 0.4));
+            animation: nameGradient 5s ease-in-out infinite;
+            letter-spacing: 3px;
+            position: relative;
+            display: inline-block;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        .main-name::before, .main-name::after {
+            content: '✦';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #CFA474, #9CB1A8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 20px;
+            animation: starTwinkle 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 8px rgba(207, 164, 116, 0.8));
+        }
+
+        .main-name::before {
+            left: -35px;
+        }
+
+        .main-name::after {
+            right: -35px;
+            animation-delay: 1s;
+        }
+
+        @keyframes nameGradient {
+            0%, 100% { background-position: 0% 50%; filter: hue-rotate(0deg); }
+            50% { background-position: 100% 50%; filter: hue-rotate(20deg); }
+        }
+
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
+            50% { opacity: 0.5; transform: translateY(-50%) scale(1.3); }
+        }
+
+        .alt-names {
+            font-size: 12px;
+            color: #7a9690;
+            margin-top: 6px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .alt-name {
+            display: inline-block;
+            animation: altNameFloat 3s ease-in-out infinite;
+        }
+
+        .alt-name:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .alt-name:nth-child(3) {
+            animation-delay: 1.5s;
+        }
+
+        @keyframes altNameFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .separator {
+            margin: 0 10px;
+            color: #CFA474;
+        }
+
+        .title-main {
+            text-align: center;
+            margin: 18px 0 15px;
+        }
+
+        .artist-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #CFA474, #9CB1A8);
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 900;
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(207, 164, 116, 0.5),
+                        inset 0 -3px 10px rgba(0, 0, 0, 0.2);
+            animation: badgePulse 3s ease-in-out infinite;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            letter-spacing: 2px;
+        }
+
+        .artist-badge:hover {
+            transform: scale(1.1) rotate(-2deg);
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 10px 30px rgba(207, 164, 116, 0.5); }
+            50% { box-shadow: 0 10px 50px rgba(156, 177, 168, 0.8); }
+        }
+
+        .badge-icon {
+            animation: iconSpin 4s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes iconSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .secondary-roles {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .role-tag {
+            background: linear-gradient(135deg, rgba(156, 177, 168, 0.8), rgba(209, 193, 155, 0.8));
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            color: #fff;
+            border: 2px solid #9CB1A8;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: tagFloat 4s ease-in-out infinite;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .role-tag:nth-child(1) {
+            animation-delay: 0.5s;
+        }
+
+        .role-tag:nth-child(2) {
+            animation-delay: 1s;
+        }
+
+        .role-tag:hover {
+            transform: translateY(-5px) rotate(3deg);
+            box-shadow: 0 10px 25px rgba(156, 177, 168, 0.5);
+        }
+
+        @keyframes tagFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%,
+                #CFA474 20%,
+                #9CB1A8 50%,
+                #CFA474 80%,
+                transparent 100%
+            );
+            margin: 18px 0;
+            border-radius: 10px;
+            animation: dividerGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes dividerGlow {
+            0%, 100% { opacity: 0.6; box-shadow: 0 0 10px rgba(207, 164, 116, 0.3); }
+            50% { opacity: 1; box-shadow: 0 0 20px rgba(156, 177, 168, 0.6); }
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .social-btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 11px 20px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            border-radius: 50px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 3px solid;
+            letter-spacing: 0.5px;
+        }
+
+        .social-btn .btn-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.4s ease;
+            z-index: 0;
+        }
+
+        .social-btn .btn-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn.youtube {
+            background: linear-gradient(135deg, #FF0000, #CC0000);
+            border-color: #FF0000;
+            color: white;
+        }
+
+        .social-btn.youtube .btn-bg {
+            background: linear-gradient(135deg, #CC0000, #990000);
+        }
+
+        .social-btn.twitter {
+            background: linear-gradient(135deg, #1DA1F2, #0d8bd9);
+            border-color: #1DA1F2;
+            color: white;
+        }
+
+        .social-btn.twitter .btn-bg {
+            background: linear-gradient(135deg, #0d8bd9, #0a6fb8);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .social-btn:hover .btn-bg {
+            transform: scale(1.2);
+        }
+
+        .social-btn:hover .btn-content {
+            transform: scale(1.1);
+        }
+
+        .social-btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .corner-star {
+            position: absolute;
+            font-size: 40px;
+            color: #CFA474;
+            animation: cornerStarRotate 8s linear infinite;
+            text-shadow: 0 0 20px rgba(207, 164, 116, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .corner-star:hover {
+            transform: scale(1.5) rotate(180deg);
+            color: #9CB1A8;
+        }
+
+        .corner-star.top-left {
+            top: -20px;
+            left: -20px;
+        }
+
+        .corner-star.top-right {
+            top: -20px;
+            right: -20px;
+            animation-delay: 2s;
+        }
+
+        .corner-star.bottom-left {
+            bottom: -20px;
+            left: -20px;
+            animation-delay: 4s;
+        }
+
+        .corner-star.bottom-right {
+            bottom: -20px;
+            right: -20px;
+            animation-delay: 6s;
+        }
+
+        @keyframes cornerStarRotate {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        .click-effect {
+            position: fixed;
+            pointer-events: none;
+            font-size: 30px;
+            color: #F2EBC9;
+            text-shadow: 0 0 10px rgba(242, 235, 201, 0.8);
+            animation: clickStarEffect 1s ease-out forwards;
+            z-index: 9999;
+        }
+
+        @keyframes clickStarEffect {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2) rotate(360deg) translateY(-100px);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .profile-card {
+                width: 90%;
+                padding: 30px 25px;
+            }
+
+            .main-name {
+                font-size: 32px;
+            }
+
+            .artist-badge {
+                font-size: 16px;
+                padding: 8px 25px;
+            }
+            
+            .avatar-container {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 15px;
+            }
+            
+            .avatar {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .social-btn {
+                font-size: 13px;
+                padding: 10px 18px;
+            }
+        }
+        
+        @media (max-height: 700px) {
+            .profile-card {
+                max-height: 95vh;
+                padding: 20px 20px;
+                margin-top: 2vh;
+            }
+            
+            .name-section {
+                margin-bottom: 10px;
+            }
+            
+            .main-name {
+                font-size: 42px;
+            }
+            
+            .title-main {
+                margin: 15px 0 10px;
+            }
+            
+            .artist-badge {
+                padding: 8px 25px;
+                font-size: 16px;
+            }
+            
+            .secondary-roles {
+                margin: 10px 0;
+            }
+            
+            .social-links {
+                margin-top: 15px;
+                gap: 8px;
+            }
+            
+            .social-btn {
+                padding: 10px 18px;
+                font-size: 13px;
+            }
+        }
+    </style>
+
+    <script>
+        // Create floating stars
+        function createFloatingStars() {
+            const container = document.getElementById('starsContainer');
+            const starCount = 30;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'floating-star';
+                star.textContent = '✦';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.animationDuration = (8 + Math.random() * 4) + 's';
+                star.style.animationDelay = Math.random() * 5 + 's';
+                star.style.fontSize = (15 + Math.random() * 15) + 'px';
+                container.appendChild(star);
+            }
+        }
+
+        // Click effect
+        function createClickEffect(e) {
+            const effect = document.createElement('div');
+            effect.className = 'click-effect';
+            effect.textContent = '✦';
+            effect.style.left = e.clientX + 'px';
+            effect.style.top = e.clientY + 'px';
+            document.getElementById('clickEffects').appendChild(effect);
+
+            setTimeout(() => {
+                effect.remove();
+            }, 1000);
+        }
+
+        // Interactive elements
+        document.addEventListener('DOMContentLoaded', () => {
+            createFloatingStars();
+
+            // Click effects on body
+            document.body.addEventListener('click', createClickEffect);
+
+            // Avatar click effect
+            const avatar = document.querySelector('.avatar');
+            avatar.addEventListener('click', (e) => {
+                e.stopPropagation();
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => {
+                        createClickEffect({
+                            clientX: e.clientX + (Math.random() - 0.5) * 100,
+                            clientY: e.clientY + (Math.random() - 0.5) * 100
+                        });
+                    }, i * 50);
+                }
+            });
+
+            // Corner stars click
+            const cornerStars = document.querySelectorAll('.corner-star');
+            cornerStars.forEach(star => {
+                star.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const rect = star.getBoundingClientRect();
+                    for (let i = 0; i < 5; i++) {
+                        setTimeout(() => {
+                            createClickEffect({
+                                clientX: rect.left + rect.width / 2,
+                                clientY: rect.top + rect.height / 2
+                            });
+                        }, i * 100);
+                    }
+                });
+            });
+
+            // Artist badge click
+            const badge = document.querySelector('.artist-badge');
+            badge.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const rect = badge.getBoundingClientRect();
+                for (let i = 0; i < 12; i++) {
+                    const angle = (i / 12) * Math.PI * 2;
+                    const radius = 80;
+                    setTimeout(() => {
+                        createClickEffect({
+                            clientX: rect.left + rect.width / 2 + Math.cos(angle) * radius,
+                            clientY: rect.top + rect.height / 2 + Math.sin(angle) * radius
+                        });
+                    }, i * 50);
+                }
+            });
+
+            // Role tags hover effect
+            const roleTags = document.querySelectorAll('.role-tag');
+            roleTags.forEach(tag => {
+                tag.addEventListener('mouseenter', (e) => {
+                    const rect = tag.getBoundingClientRect();
+                    for (let i = 0; i < 3; i++) {
+                        setTimeout(() => {
+                            createClickEffect({
+                                clientX: rect.left + Math.random() * rect.width,
+                                clientY: rect.top + Math.random() * rect.height
+                            });
+                        }, i * 100);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
